@@ -25,6 +25,10 @@ function ContextProvider(props) {
               error: action.error
             }
           }
+          case 'SWITCHT_FILTER': {
+            return { ...state, currentFilter: action.switchFilter}
+          }
+          
           default:
             return state
         }
@@ -32,6 +36,7 @@ function ContextProvider(props) {
         loading: false,
         response: null,
         error: null,
+        currentFilter: '',
         
       })
   

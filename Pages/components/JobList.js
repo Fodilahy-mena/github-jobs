@@ -6,13 +6,18 @@ const LogoStyleImg = styled.img`
 max-width: 90px;
 height: auto;
 `;
-function JobList({jobs}) {
+// job.title.toLowerCase().includes(currentFilter.toLowerCase())
+// .slice(0, 5)
+function JobList({jobs, jobType}) {
     const {state, dispatch} = useContext(Context);
-    const {loading, response} = state;
-    // response !== null && response.map(job => console.log(job.location))
+    const {loading, response, currentFilter} = state;
+    console.log("jobeTi", jobType)
+    console.log("curr",currentFilter)
     return (
         <ul className="job_list">
-            {jobs !== null && jobs.slice(0, 5).map(job => (
+            {jobs !== null && jobs.filter(job => job.title.toLowerCase().includes(currentFilter.toLowerCase())
+            || job.company.toLowerCase().includes(currentFilter.toLowerCase())
+            || job.type.toLowerCase().includes(jobType.toLowerCase())).slice(0, 5).map(job => (
             <li className="job_item" key={job.id}>
                 <LogoStyleImg src={job.company_logo}/>
                 <div>
