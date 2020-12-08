@@ -1,6 +1,7 @@
 import React, {useContext} from 'react'
-import { Context } from '../../Context';
+import { Context } from '../Context';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 const LogoStyleImg = styled.img`
 max-width: 90px;
@@ -18,18 +19,20 @@ function JobList({jobs, jobType}) {
             {jobs !== null && jobs.filter(job => job.title.toLowerCase().includes(currentFilter.toLowerCase())
             || job.company.toLowerCase().includes(currentFilter.toLowerCase())
             || job.type.toLowerCase().includes(jobType.toLowerCase())).slice(0, 5).map(job => (
-            <li className="job_item" key={job.id}>
-                <LogoStyleImg src={job.company_logo}/>
-                <div>
-                    <span>{job.location}</span>
-                    <p>{job.title}</p>
-                    <button>{job.type}</button>
-                </div>
-                <div>
-                    <span>{job.location}</span>
-                    <span>{job.created_at}</span>
-                </div>
-            </li>
+            <Link to={`/${job.id}`} key={job.id}>
+                <li className="job_item" key={job.id}>
+                    <LogoStyleImg src={job.company_logo}/>
+                    <div>
+                        <h3 className="job_location">{job.location}</h3>
+                        <p className="job_title">{job.title}</p>
+                        <button className="job_type">{job.type}</button>
+                    </div>
+                    <div>
+                        <span>{job.location}</span>
+                        <span>{job.created_at}</span>
+                    </div>
+                </li>
+            </Link>
             ))}
         </ul>
     )

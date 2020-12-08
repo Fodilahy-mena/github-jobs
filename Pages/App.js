@@ -1,5 +1,7 @@
 import React,{useState, useEffect, useContext} from 'react'
+import {Switch, Route, Link} from 'react-router-dom';
 import { Context } from '../Context';
+import JobDetails from './JobDetails';
 import Jobs from './Jobs';
 
 const API_URL = "https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json?description";
@@ -27,7 +29,14 @@ function App() {
     return (
         <>
             <div className="loading">
-                <Jobs/>
+                <Switch>
+                    <Route exact path="/">
+                        <Jobs/>
+                    </Route>
+                    <Route path="/:jobId">
+                        <JobDetails/>
+                    </Route>
+                </Switch>
             </div>
         </>
     )

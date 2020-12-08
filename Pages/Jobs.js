@@ -1,6 +1,6 @@
 import React,{useContext, useEffect, useState} from 'react'
 import { Context } from '../Context';
-import JobList from './components/JobList';
+import JobList from '../components/JobList';
 
 function Jobs() {
     const {state, dispatch} = useContext(Context);
@@ -64,46 +64,51 @@ function Jobs() {
     console.log("mk",jobType, isJobType)
     return (
         <div>
-            <h1>Github <span>Jobs</span></h1>
             <header>
-                <form onSubmit={handleSearche}>
-                    <input type="text" onChange={(e) => setSearch(e.target.value)} placeholder="Title, companies, expertise or benefits"/>
-                    <button>Search</button>
-                </form>
+                <div className="form_container">
+                    <form onSubmit={handleSearche} className="form_search">
+                        <input type="text" onChange={(e) => setSearch(e.target.value)} placeholder="Title, companies, expertise or benefits"/>
+                        <button>Search</button>
+                    </form>
+                </div>
             </header>
             { loading && <div>Loading...</div> }
             {!loading &&
-            <>
-            <section>
-                <form>
-                    <input type="checkbox" name="jobType" onChange={() => {
-                    setIsJobType(prevType => !prevType)
-                    if(isJobType === false) {
-                        setJobType("Full time")
-                    } else {
-                        setJobType("")
-                    }
-                    }
-                    }/>
-                    <label>Full time</label>
-                    <label>Location</label>
-                    <input type="text" name="locations" onChange={(e) => setLocations(e.target.value)} placeholder="City, state, zip code or country"/>
-                    {locationsData.filter((item) => 
-                        item.toLowerCase().includes(locations.toLowerCase())).map((locationData, index) => 
-                        locations !== '' ?
-                        <fieldset key={index}>
-                            <input onChange={(e) => setLocation(e.target.checked.value)} name="location" value={location} type="checkbox"/>
-                            <label>{locationData}</label>
-                        </fieldset>
-                        :
-                        ''
-                    )}
-                </form>
-            </section>
-            <section className="section_jobs">
-                <JobList search={search} jobType={jobType} jobs={response}/>
-            </section>
-            </>
+            <main>
+                <section>
+                    <form>
+                        <div className="jobType_contaimer">
+                            <input type="checkbox" name="jobType" onChange={() => {
+                            setIsJobType(prevType => !prevType)
+                            if(isJobType === false) {
+                                setJobType("Full time")
+                            } else {
+                                setJobType("")
+                            }
+                            }
+                            }/>
+                            <label>Full time</label>
+                        </div>
+                        <div className="location_container">
+                            <label className="location">Location</label>
+                            <input type="text" name="locations" onChange={(e) => setLocations(e.target.value)} placeholder="City, state, zip code or country"/>
+                            {locationsData.filter((item) => 
+                                item.toLowerCase().includes(locations.toLowerCase())).map((locationData, index) => 
+                                locations !== '' ?
+                                <fieldset key={index}>
+                                    <input onChange={(e) => setLocation(e.target.checked.value)} name="location" value={location} type="checkbox"/>
+                                    <label>{locationData}</label>
+                                </fieldset>
+                                :
+                                ''
+                            )}
+                        </div>
+                    </form>
+                </section>
+                <section className="section_jobs">
+                    <JobList search={search} jobType={jobType} jobs={response}/>
+                </section>
+            </main>
             }
         
         </div>
