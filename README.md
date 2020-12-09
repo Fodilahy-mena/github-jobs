@@ -108,6 +108,7 @@ My css style also is a bit simple and not really well done so I think I would ha
 Thruly I learned a lot of things. For example I used slice in the JobList file to get the first five objects from the array. I had never used it before. And also I realised that the OR ( || ) opperator doesn't really work with filter so I had to use And opperator ( && ).
 
 -   Challenging part fom me
+
 The most challenging part was the filtering. I am still struggling with it.
 
 -   Ather comments
