@@ -1,58 +1,20 @@
 import React,{useContext, useEffect, useState} from 'react'
 import { Context } from '../Context';
 import JobList from '../components/JobList';
-
+import dataLocations from '../dataLocations.json'
 function Jobs() {
     const {state, dispatch} = useContext(Context);
-    const [locations, setLocations] = useState("");
-    const [locationsData, setLocationsData] = useState([
-        "Berlin",
-        "Toronto, Canada (or remote within Canada)",
-        "Portland, ME (Remote OK)",
-        "eindhoven ",
-        "Frankfurt, Germany (remote within Germany)",
-        "Croeselaan 18, 3521CB, Utrecht",
-        "Dresden",
-        "Aachen",
-        "Eindhoven",
-        "Budapest",
-        "St. Helier, Jersey",
-        "Munich Germany",
-        "Vernon Hills, IL (Chicago)",
-        "Remote (US Pacific TZ)",
-        "Remote in U.S.",
-        "Zurich",
-        "Utrecht ",
-        "Chennai",
-        "Barcelona",
-        "Bangalore",
-        "München",
-        "Fort Gordon, GA",
-        "Austin, TX",
-        "Munich",
-        "Hamburg",
-        "Aalsmeer",
-        "Delft",
-        "Europe (remote)",
-        "Cologne, Germany",
-        "Philadelphia",
-        "Holzwickede",
-        "United States",
-        "Edmond, Oklahoma",
-        "San Francisco | Remote (US/Canada)",
-        "Zeist",
-        "Leverkusen",
-        "New Yourk City",
-        "Berlin / Remote",
-        "Dutapest"
-        ])
-    const {loading, response} = state;
-    const [location, setLocation] = useState('')
+    const [zipCode, setZipCode] = useState("");
+    const [locationsData, setLocationsData] = useState([])
+    const {loading, response, currentLocation} = state;
+    const [location, setLocation] = useState("")
     const [search, setSearch] = useState("");
     const [isJobType, setIsJobType] = useState(false);
-    const [jobType, setJobType] = useState('Contract');
-    console.log(locations);
+    const [jobType, setJobType] = useState('');
     
+    useEffect(() => {
+        setLocationsData(dataLocations);
+    }, [])
     function handleSearche(e) {
         e.preventDefault();
         console.log("ser",search)
@@ -60,14 +22,13 @@ function Jobs() {
         setSearch('');
         e.target.reset();
     }
-    
-    console.log("mk",jobType, isJobType)
+
     return (
         <div>
             <header>
                 <div className="form_container">
-                    <form onSubmit={handleSearche} className="form_search">
-                        <input type="text" onChange={(e) => setSearch(e.target.value)} placeholder="Title, companies, expertise or benefits"/>
+                    <form onSubmit={(e, id) => handleSearche(e, id)} className="form_search">
+                        <input  type="text" onChange={(e) => setSearch(e.target.value)} placeholder="Title, companies, expertise or benefits"/>
                         <button>Search</button>
                     </form>
                 </div>
@@ -86,27 +47,29 @@ function Jobs() {
                                 setJobType("")
                             }
                             }
-                            }/>
+                            }
+                            checked={jobType === "Full time"}/>
                             <label>Full time</label>
                         </div>
                         <div className="location_container">
                             <label className="location">Location</label>
-                            <input type="text" name="locations" onChange={(e) => setLocations(e.target.value)} placeholder="City, state, zip code or country"/>
-                            {locationsData.filter((item) => 
-                                item.toLowerCase().includes(locations.toLowerCase())).map((locationData, index) => 
-                                locations !== '' ?
-                                <fieldset key={index}>
-                                    <input onChange={(e) => setLocation(e.target.checked.value)} name="location" value={location} type="checkbox"/>
-                                    <label>{locationData}</label>
+                            <input type="text" name="zipCode" onChange={(e) => setZipCode(e.target.value)} placeholder="City, state, zip code or country"/>
+                            {locationsData.map((locationData) => 
+                                <fieldset key={locationData.id}>
+                                    <input 
+                                        checked={locationData.name == currentLocation}
+                                        onChange={(e) => {
+                                        setLocation(e.target.value)
+                                        dispatch({ type: 'SWITCHT_LOCATION', switchLocation: e.target.value })
+                                        }} value={locationData.name} type="checkbox"/>
+                                    <label>{locationData.name}</label>
                                 </fieldset>
-                                :
-                                ''
                             )}
                         </div>
                     </form>
                 </section>
                 <section className="section_jobs">
-                    <JobList search={search} jobType={jobType} jobs={response}/>
+                    <JobList search={search} location={location} zipCode={zipCode} jobType={jobType} jobs={response}/>
                 </section>
             </main>
             }

@@ -70,17 +70,49 @@ Template for your readme :
 
 ## Overview
 
-![screenshot](https://user-images.githubusercontent.com/16707738/92399059-5716eb00-f132-11ea-8b14-bcacdc8ec97b.png)
+![screenshot](./demo.png)
 
 Introduce your projects by taking a screenshot or a gif. Try to tell visitors a story about your project by answering:
 
--   Where can I see your demo?
--   What was your experience?
--   In a few sentences, explain the structure of your project.
--   If you had more time, what area of your project would you improve?
--   Did you learn anything new while working on this project?
--   What was the most challenging part for you?
--   Any other comments?
+-   Experience
+
+In this project, I fetched an api from github jobs. I used fetch catch to get it works very well.
+When the api is not yet fetched, I displayed a loading on the page so that the user will know that it is waiting for the api loaded.
+
+So I don’t map the response if it is still null by using Boolean condition like this: { response !== null && response.map()}. It was a real problem until I realized it but now it works well.
+
+Filtering was also challenging, and now some of the filters do not work well except the filter of location. They mostly work but only if you use just one filter.
+
+- Project structure
+
+I have a context file where I have a state. I used useReducer and useContext so that I access any variables or objects from state to any files.
+
+I fecthed my data in my App file and dispach it to the state of the reducer, in that case, the response array object from the sate receives the data. I inserted files like Jobs and JobDetails links in it as well.
+
+The very big file is the Jobs file.
+It contains things like form filters and many states. It is because I did the most of the project there whearase JobList file only cope with displaying the data on the page and so the JobDetails file.
+
+With JobDetails file, I used useParams to get back the id of job object and with tah id, I could get any its properties to display.
+
+
+-   Could be improved
+
+I couldn’t convert the release date into number of days between the release date to now, but I think I would have done it if I had more time.
+
+The description is confusing for me. There are a lot of elements in it and they are seen on the page. So I couldn’t handle it as well.
+
+My css style also is a bit simple and not really well done so I think I would have made it better.
+
+-   Something new
+
+Thruly I learned a lot of things. For example I used slice in the JobList file to get the first five objects from the array. I had never used it before. And also I realised that the OR ( || ) opperator doesn't really work with filter so I had to use And opperator ( && ).
+
+-   Challenging part fom me
+The most challenging part was the filtering. I am still struggling with it.
+
+-   Ather comments
+
+I don't have a lot of comments but there was a shortage of thime.
 
 
 

@@ -6,10 +6,12 @@ import Jobs from './Jobs';
 
 const API_URL = "https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json?description";
 function App() {
-   const {state, dispatch} = useContext(Context);
-   const {loading, response} = state;
-   console.log(response)
+    // get the state from context
+    const {state, dispatch} = useContext(Context);
+    const {response} = state;
+    console.log(response)
 
+    // fetch the API_URL github jobs api
     useEffect(() => {
         let isCurrent = true
         dispatch({ type: "LOADING" })
@@ -17,8 +19,10 @@ function App() {
         .then(response => response.json())
         .then(json => {
             if (isCurrent) {
+            // update the null response in the context into json data
             dispatch({ type: "RESOLVED", response: json })
             }
+            // catch if there is an error
         }).catch(error => {
             dispatch({ type: "ERROR", error })
         })
